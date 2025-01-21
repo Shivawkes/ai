@@ -12,7 +12,7 @@ export const blessing = [
 	'okay',
 	'pretty lucky',
 	'best in the world,
-	'approx. Sept. 8',
+	'approximately September 8th',
 	'succubus',
 	'slight luck',
 	'financial luck',
