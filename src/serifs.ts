@@ -369,8 +369,8 @@ export default {
 	},
 
 	maze: {
-		post: 'Today's maze! #AiMaze',
-		foryou: 'I drew it!'
+		post: 'Todays maze! #AiMaze',
+		foryou: 'I drew it!',
 	},
 
 	chart: {
