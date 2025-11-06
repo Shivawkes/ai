@@ -48,7 +48,7 @@ export default class extends Module {
 
 	@bindThis
 	private async mentionHook(msg: Message) {
-		if (msg.includes(['fortune telling', 'fortune telling', 'fortune telling', 'fortune slip'])) {
+		if (msg.includes(['fortune', 'fortune telling','fortune slip'])) {
 			const date = new Date();
 			const seed = `${date.getFullYear()}/${date.getMonth()}/${date.getDate()}@${msg.userId}`;
 			const rng = seedrandom(seed);
