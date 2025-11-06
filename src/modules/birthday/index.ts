@@ -19,14 +19,14 @@ export default class extends Module {
 	}
 
 	/**
-	 * 誕生日のユーザーがいないかチェック(いたら祝う)
+	 * Check if any users have birthdays (and celebrate if so)
 	 */
 	@bindThis
 	private crawleBirthday() {
 		const now = new Date();
 		const m = now.getMonth();
 		const d = now.getDate();
-		// Misskeyの誕生日は 2018-06-16 のような形式
+		// Misskey's birthday is in the format 2018-06-16
 		const today = `${zeroPadding(m + 1, 2)}-${zeroPadding(d, 2)}`;
 
 		const birthFriends = this.ai.friends.find({
@@ -36,7 +36,7 @@ export default class extends Module {
 		birthFriends.forEach(f => {
 			const friend = new Friend(this.ai, { doc: f });
 
-			// 親愛度が3以上必要
+			// Affection level must be 3 or higher
 			if (friend.love < 3) return;
 
 			const data = friend.getPerModulesData(this);
