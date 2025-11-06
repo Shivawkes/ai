@@ -1,115 +1,115 @@
 <img src="https://github.com/syuilo/ai/blob/master/ai.png?raw=true" align="right" height="320px"/>
 
-# 取扱説明書
+# Instruction Manual
 
-## プロフィール
-[こちら](https://xn--931a.moe/)
+## Profile
+[Here](https://xn--931a.moe/)
 
-## 藍の主な機能
-### 挨拶
-「おはよう」「おやすみ」などと話しかけると反応してくれます。
+## Ai's Main Features
+### Greetings
+She will respond when you say things like "Good morning" or "Good night."
 
-### 占い
-藍に「占い」と言うと、あなたの今日の運勢を占ってくれます。
+### Fortune Telling
+Say "Fortune Telling" to Ai and she will tell you your fortune for the day.
 
-### タイマー
-指定した時間、分、秒を経過したら教えてくれます。「3分40秒」のように単位を混ぜることもできます。
+### Timer
+She will let you know when the specified number of hours, minutes, and seconds have passed. You can also mix units, such as "3 minutes and 40 seconds."
 
-### リマインダー
+### Reminders
 ```
-@ai remind 部屋の掃除
+@ai remind me to clean my room
 ```
-のようにメンションを飛ばすと12時間おきにせっつかれます。その飛ばしたメンションか、藍ちゃんからの催促に「やった」または「やめた」と返信することでリマインダー解除されます。
-また、引用Renoteでメンションすることもできます。
+Send a mention like this to her and she'll remind you to clean your room every 12 hours. Replying to the mention or Ai's prompt with "Done" or "Done" will disable the reminder.
+You can also mention them in a quote renote.
 
-### 福笑い
-藍に「絵文字」と言うと、藍が考えた絵文字の組み合わせを教えてくれます。
+### Fukuwarai (Lucky Lucky Smile)
+Say "Emoji" to Ai and she'll tell you the emoji combination she's thinking of.
 
-### サイコロ
-ダイスノーテーションを伝えるとサイコロを振ってくれます。
-例: "2d6" (6面サイコロを2回振る)、"3d5" (5面サイコロを3回振る)
+### Dice
+Tell Ai a dice notation and she'll roll the dice.
+Example: "2d6" (roll a six-sided die twice), "3d5" (roll a five-sided die three times)
 
-### 迷路
-「迷路」と言うと迷路を描いてくれます。「難しい」「簡単」などの言葉を添えることで、難易度も調整できます。
+### Maze
+Say "maze" and she'll draw a maze. You can adjust the difficulty by adding words like "difficult" or "easy."
 
-### 数当てゲーム
-藍にメッセージで「数当てゲーム」と言うと遊べます。
-藍の考えている数字を当てるゲームです。
+### Number Guessing Game
+Message Ai "Number Guessing Game" to play.
+This is a game where you have to guess the numbers Ai is thinking of.
 
-### 数取りゲーム
-藍に「数取りゲーム」と言うと遊べます。
-複数人で行うゲームで、もっとも大きい数字を言った人が勝ちです。
+### Numbering Game
+Say "Numbering Game" to Ai to play.
+This is a multiplayer game where the person who says the highest number wins.
 
-### リバーシ
-藍とリバーシで対局できます。(この機能はインスタンスによっては無効になっている可能性があります)
-藍に「リバーシ」と言うか、リバーシで藍を指名すれば対局できます。
-強さも調整できます。
+### Reversi
+Play Reversi with Ai. (This feature may be disabled in some instances.)
+You can play a game of Reversi by saying "Reversi" to Ai or by selecting Ai in Reversi.
+You can also adjust the difficulty level.
 
-### 覚える
-たまにタイムラインにあるキーワードを「覚え」ます。
-(この機能はインスタンスによっては無効になっている可能性があります)
+### Remember
+Occasionally, Ai will "remember" keywords from your timeline.
+(This feature may be disabled in some instances.)
 
-### 呼び方を教える
-藍があなたのことをなんて呼べばいいか教えられます。
-ただし後述の親愛度が一定の値に達している必要があります。
-(トークでのみ反応します)
+### Teach Me How to Call You
+Ai can teach you how to call you.
+However, this requires that your Affection level (described below) has reached a certain level.
+(Only responds in chats.)
 
-### いらっしゃい
-Misskeyにアカウントを作成して初めて投稿を行うと、藍がネコミミアンテナでそれを補足し、Renoteしてみんなに知らせてくれる機能です。
+### Welcome
+When you create an account on Misskey and post for the first time, Ai will use her cat ears to capture your message and renote it to let everyone know.
 
-### Follow me
-藍に「フォローして」と言うとフォローしてくれます。
+### Follow Me
+Tell Ai "Follow me" and she will follow you.
 
-### HappyBirthday
-藍があなたの誕生日を祝ってくれます。
+### Happy Birthday
+Ai will celebrate your birthday.
 
-### バレンタイン
-藍がチョコレートをくれます。
+### Valentine's Day
+Ai will give you chocolate.
 
-### チャート
-インスタンスの投稿チャートなどを投稿してくれます。
+### Charts
+Ai will post charts and other information from the instance.
 
-### サーバー監視
-サーバーの状態を監視し、負荷が高くなっているときは教えてくれます。
+### Server Monitoring
+Monitors the server's status and notifies you when the load is high.
 
 ### ping
-PONGを返します。生存確認にどうぞ
+Returns a PONG. Use this to check if the server is alive.
 
-### カスタム絵文字チェック
-1日に1回、カスタム絵文字の追加を監視してくれます。「カスタム絵文字チェック」または「カスタムえもじチェック」、「カスタムえもじを確認して」ですぐに確認してくれます。この機能を使う際は、藍用アクセストークンの作り直しが必要となる可能性があります。**藍を動かすBotアカウントに管理者権限を付与し、Botアカウントで「絵文字をみる」権限を追加で付与したアクセストークンを作成し、そのトークンを設定**してください。
+### Custom Emoji Check
+Once a day, this feature monitors the addition of custom emojis. You can immediately check by clicking "Custom Emoji Check," "Custom Emoji Check," or "Check Custom Emoji." Using this feature may require you to regenerate Ai's access token. **Grant administrator privileges to the bot account that controls Ai, create an access token with the additional permission "View Emoji" for the bot account, and set that token.**
 
 ### aichat
 ```
-@ai aichat 部屋の片付けの手順を教えて
+@ai aichat, please tell me how to clean my room.
 ```
-のようにメンションを飛ばすと、GoogleのGemini APIなどを使って返答してくれます(今のバージョンではGemini APIのみ対応)。利用するにはAPIキーの登録が必要です。藍ちゃんの返信に対し、返信するとさらに返信されます(指定時間以内のみ)。**ggg**を文章に入れると、Google検索によるグラウンディング(モデルを検証可能な情報源に接続するプロセス)を行った回答を行います(ただし、AI側で判断し、検索しないこともある)。
-APIキーを登録の上、設定でaichatRandomTalkEnabledをtrueにすると、ランダムトーク(ランダムでaichatを発動)させることも可能です。ランダムトーク間隔、ランダムトーク確率を設定で指定可能です。
-設定でaichatGroundingWithGoogleSearchAlwaysEnabledをtrueにすると、メンションの場合、つねにGoogle検索によるグラウンディングを行った回答を試みます(gggの入力は不要。AI側で判断し、検索をしないこともある)。このグラウンディング機能は2025年2月現在、[1日1,000件利用可能](https://ai.google.dev/gemini-api/docs/models/gemini-v2?hl=ja#search-tool)です。
+Send a mention like this and it will respond using Google's Gemini API (currently only Gemini API is supported). To use this feature, you must register an API key. Replying to Ai's reply will result in a further reply (only within the specified time). If you include **ggg** in a sentence, the system will provide a grounded answer via Google search (the process of connecting the model to a verifiable source of information) (however, the AI ​​may decide not to search).
+You can also enable random talk (randomly triggering aichat) by registering an API key and setting aichatRandomTalkEnabled to true in the settings. The random talk interval and random talk probability can be specified in the settings.
+If you set aichatGroundingWithGoogleSearchAlwaysEnabled to true in the settings, the system will always attempt to provide a grounded answer via Google search for mentions (entering ggg is not necessary; the AI ​​may decide not to search). As of February 2025, this grounding function is available for [1,000 responses per day](https://ai.google.dev/gemini-api/docs/models/gemini-v2?hl=ja#search-tool).
 
-#### aichatの細かすぎる話
+#### Aichat Details
 
-* aichat、または、返信にURLがある場合、Misskeyのサマリプロキシ？を使って、情報を取得した上で返答します。
-* aichat、または、返信したものにファイルが添付されている場合、そのファイルをもとに返答します。
-  * 画像、PDF、音声、動画(短いもの)、テキスト形式のファイルが利用可能です。
-  * ただし、センシティブなファイルは送らないほうが無難です、よくないことが起こる可能性があります。
-* aichatを行った際(mentionHook)、引用ノートがあれば、そのノートの本文を参照し、返答します。
-* aichatの結果に対し、返信すると、その情報を加味して返信します。
-  * 返信は10個を超えると参照しなくなります
-  * 「exist.history.length > 10」の数字を変更すれば、参照する返信の数を増減できます(返信数が多くなり、送る文章が長すぎるとレスポンスが返ってこなかったり、エラーになったりするので気をつけてください)
-  * 返信を監視する時間は定数TIMEOUT_TIMEで変更可能です(デフォルトは30分)
-* ランダムトーク機能は確率(設定で指定)をクリアし、親愛度が指定(7)以上、かつ、Botでない場合のみ実行されます
-  * 条件を変更したい場合はソース修正してください
+* If the aichat or reply contains a URL, we will use Misskey's summary proxy to retrieve the information and then reply.
+* If the aichat or reply contains a file attachment, we will reply based on that file.
+* Images, PDFs, audio, short videos, and text files are accepted.
+* However, it is best not to send sensitive files, as they may cause unforeseen issues.
+* When an aichat is performed (mentionHook), if there is a cited note, the body of that note will be referenced and the reply will be sent.
+* If you reply to the aichat results, the reply will take that information into account.
+* Replies will no longer be referenced if they exceed 10.
+* You can increase or decrease the number of replies referenced by changing the value of "exist.history.length > 10." (Note that if the number of replies increases and the message is too long, responses may not be returned or an error may occur.)
+* The response monitoring time can be changed using the constant TIMEOUT_TIME (default is 30 minutes).
+* The random chat function will only be executed if the probability (specified in the settings) is met, the affection level is set to 7 or higher, and the user is not a bot.
+* Please modify the source code if you want to change the conditions.
 
-### その他反応するフレーズ (トークのみ)
-* かわいい
-* なでなで
-* 好き
-* ぎゅー
-* 罵って
-* 踏んで
-* 痛い
+### Other Reaction Phrases (Talk Only)
+* Cute
+* Pet
+* Love
+* Hug
+* Insult
+* Step
+* Ouch
 
-## 親愛度
-藍はあなたに対する親愛度を持っています。
-藍に挨拶したりすると、少しずつ上がっていきます。
-親愛度によって反応や各種セリフが変化します。親愛度がある程度ないとしてくれないこともあります。
+## Affection Level
+Ai has an affection level for you.
+Greeting Ai will gradually increase this level.
+Her reactions and various lines change depending on her affection level. Some interactions may not be performed unless you have a certain level of affection.
