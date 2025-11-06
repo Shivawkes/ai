@@ -38,7 +38,7 @@ export type Meta = {
 };
 
 /**
- * 藍
+ * blue
  */
 export default class 藍 {
 	public readonly version = pkg._v;
@@ -73,11 +73,11 @@ export default class 藍 {
 	public friends: loki.Collection<FriendDoc>;
 	public moduleData: loki.Collection<any>;
 
-	/**
-	 * 藍インスタンスを生成します
-	 * @param account 藍として使うアカウント
-	 * @param modules モジュール。先頭のモジュールほど高優先度
-	 */
+/**
+* Creates an Ai instance.
+* @param account : The account to use as Ai.
+* @param modules : Modules. The first module has higher priority.
+*/
 	constructor(account: User, modules: Module[]) {
 		this.account = account;
 		this.modules = modules;
@@ -141,49 +141,49 @@ export default class 藍 {
 		//#region Main stream
 		const mainStream = this.connection.useSharedConnection('main');
 
-		// メンションされたとき
+		// When mentioned
 		mainStream.on('mention', async data => {
-			if (data.userId == this.account.id) return; // 自分は弾く
+			if (data.userId == this.account.id) return; // I play
 			if (data.text && data.text.startsWith('@' + this.account.username)) {
-				// Misskeyのバグで投稿が非公開扱いになる
+				// Misskey bug causes posts to be marked as private
 				if (data.text == null) data = await this.api('notes/show', { noteId: data.id });
 				this.onReceiveMessage(new Message(this, data, false));
 			}
 		});
 
-		// 返信されたとき
+		// When you receive a reply
 		mainStream.on('reply', async data => {
-			if (data.userId == this.account.id) return; // 自分は弾く
+			if (data.userId == this.account.id) return; // I play
 			if (data.text && data.text.startsWith('@' + this.account.username)) return;
-			// Misskeyのバグで投稿が非公開扱いになる
+			// Misskey bug causes posts to be marked as private
 			if (data.text == null) data = await this.api('notes/show', { noteId: data.id });
 			this.onReceiveMessage(new Message(this, data, false));
 		});
 
-		// Renoteされたとき
+		// When renote is made
 		mainStream.on('renote', async data => {
-			if (data.userId == this.account.id) return; // 自分は弾く
+			if (data.userId == this.account.id) return; // I play
 			if (data.text == null && (data.files || []).length == 0) return;
 
-			// リアクションする
+			// React
 			this.api('notes/reactions/create', {
 				noteId: data.id,
 				reaction: 'love'
 			});
 		});
 
-		// 通知
+		// notify
 		mainStream.on('notification', data => {
 			this.onNotification(data);
 		});
 
-		// チャット
+		// chat
 		mainStream.on('newChatMessage', data => {
 			const fromUser = data.fromUser;
-			if (data.fromUserId == this.account.id) return; // 自分は弾く
+			if (data.fromUserId == this.account.id) return; // I play
 			this.onReceiveMessage(new Message(this, data, true));
 
-			// 一定期間 chatUser / chatRoom のストリームに接続して今後のやり取りに備える
+			// Connect to the chatUser/chatRoom stream for a period of time to prepare for future interactions
 			if (data.fromUserId) {
 				const chatStream = this.connection.connectToChannel('chatUser', {
 					otherId: data.fromUserId,
@@ -199,13 +199,13 @@ export default class 藍 {
 				setTimer();
 
 				chatStream.on('message', (data) => {
-					if (data.fromUserId == this.account.id) return; // 自分は弾く
+					if (data.fromUserId == this.account.id) return; // I play
 					chatStream.send('read', {
 						id: data.id,
 					});
 					this.onReceiveMessage(new Message(this, {
 						...data,
-						// fromUserは省略されてくるため
+						// Because fromUser is omitted
 						fromUser: fromUser,
 					}, true));
 					setTimer();
@@ -228,7 +228,7 @@ export default class 藍 {
 			}
 		});
 
-		// タイマー監視
+		// Timer Monitoring
 		this.crawleTimer();
 		setInterval(this.crawleTimer, 1000);
 
@@ -238,8 +238,8 @@ export default class 藍 {
 	}
 
 	/**
-	 * ユーザーから話しかけられたとき
-	 * (メンション、リプライ、トークのメッセージ)
+	 * When a user speaks to you
+	 * (mentions, replies, chat messages)
 	 */
 	@bindThis
 	private async onReceiveMessage(msg: Message): Promise<void> {
@@ -280,8 +280,8 @@ export default class 藍 {
 			}
 		};
 
-		// コンテキストがあればコンテキストフック呼び出し
-		// なければそれぞれのモジュールについてフックが引っかかるまで呼び出し
+		// If there is a context, call the context hook.
+		// If not, call each module until a hook is triggered.
 		if (context != null) {
 			const handler = this.contextHooks[context.module];
 			const res = await handler(context.key, msg, context.data);
@@ -304,9 +304,9 @@ export default class 藍 {
 		}
 
 		if (msg.isChat) {
-			// TODO: リアクション？
+			// TODO: Reaction?
 		} else {
-			// リアクションする
+			// React
 			if (reaction) {
 				this.api('notes/reactions/create', {
 					noteId: msg.id,
@@ -319,8 +319,8 @@ export default class 藍 {
 	@bindThis
 	private onNotification(notification: any) {
 		switch (notification.type) {
-			// リアクションされたら親愛度を少し上げる
-			// TODO: リアクション取り消しをよしなにハンドリングする
+			// If you receive a reaction, your affection level will increase slightly.
+			// TODO: Handle reaction cancellations gracefully
 			case 'reaction': {
 				const friend = new Friend(this, { user: notification.user });
 				friend.incLove(0.1);
@@ -336,7 +336,7 @@ export default class 藍 {
 	private crawleTimer() {
 		const timers = this.timers.find();
 		for (const timer of timers) {
-			// タイマーが時間切れかどうか
+			// Whether the timer has expired
 			if (Date.now() - (timer.insertedAt + timer.delay) >= 0) {
 				this.log(`Timer expired: ${timer.module} ${timer.id}`);
 				this.timers.remove(timer);
@@ -353,7 +353,7 @@ export default class 藍 {
 	}
 
 	/**
-	 * データベースのコレクションを取得します
+	 * Gets a collection of databases
 	 */
 	@bindThis
 	public getCollection(name: string, opts?: any): loki.Collection {
@@ -382,7 +382,7 @@ export default class 藍 {
 	}
 
 	/**
-	 * ファイルをドライブにアップロードします
+	 * Upload the file to Drive
 	 */
 	@bindThis
 	public async upload(file: Buffer | fs.ReadStream, meta: { filename: string, contentType: string }) {
@@ -398,7 +398,7 @@ export default class 藍 {
 	}
 
 	/**
-	 * 投稿します
+	 * Post
 	 */
 	@bindThis
 	public async post(param: any) {
@@ -407,7 +407,7 @@ export default class 藍 {
 	}
 
 	/**
-	 * 指定ユーザーにチャットメッセージを送信します
+	 * Sends a chat message to the specified user.
 	 */
 	@bindThis
 	public sendMessage(userId: any, param: any) {
@@ -417,7 +417,7 @@ export default class 藍 {
 	}
 
 	/**
-	 * APIを呼び出します
+	 * Call the API
 	 */
 	@bindThis
 	public api(endpoint: string, param?: any) {
@@ -430,13 +430,13 @@ export default class 藍 {
 	};
 
 	/**
-	 * コンテキストを生成し、ユーザーからの返信を待ち受けます
-	 * @param module 待ち受けるモジュール名
-	 * @param key コンテキストを識別するためのキー
-	 * @param isChat チャット上のコンテキストかどうか
-	 * @param id チャット上のコンテキストならばチャット相手のID、そうでないなら待ち受ける投稿のID
-	 * @param data コンテキストに保存するオプションのデータ
-	 */
+	 * Creates a context and waits for a user reply.
+	 * @param module : The name of the module to wait for.
+	 * @param key : The key to identify the context.
+	 * @param isChat : Whether this is a chat context.
+	 * @param id : If this is a chat context, the chat partner's ID. If not, the post ID to wait for.
+	 * @param data : Optional data to save to the context.
+	*/
 	@bindThis
 	public subscribeReply(module: Module, key: string | null, isChat: boolean, id: string, data?: any) {
 		this.contexts.insertOne(isChat ? {
@@ -455,9 +455,9 @@ export default class 藍 {
 	}
 
 	/**
-	 * 返信の待ち受けを解除します
-	 * @param module 解除するモジュール名
-	 * @param key コンテキストを識別するためのキー
+	 * Cancel reply waiting
+	 * @param module Name of the module to be removed
+	 * @param key The key to identify the context
 	 */
 	@bindThis
 	public unsubscribeReply(module: Module, key: string | null) {
@@ -468,11 +468,11 @@ export default class 藍 {
 	}
 
 	/**
-	 * 指定したミリ秒経過後に、そのモジュールのタイムアウトコールバックを呼び出します。
-	 * このタイマーは記憶に永続化されるので、途中でプロセスを再起動しても有効です。
-	 * @param module モジュール名
-	 * @param delay ミリ秒
-	 * @param data オプションのデータ
+	 * Calls the module's timeout callback after the specified number of milliseconds has elapsed.
+	 * This timer is persisted, so it remains valid even if the process is restarted.
+	 * @param module: Module name
+	 * @param delay: Milliseconds
+	 * @param data: Optional data.
 	 */
 	@bindThis
 	public setTimeoutWithPersistence(module: Module, delay: number, data?: any) {
