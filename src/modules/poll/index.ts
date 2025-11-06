@@ -28,40 +28,39 @@ export default class extends Module {
 		const duration = 1000 * 60 * 15;
 
 		const polls = [ // TODO: Extract serif
-			['珍しそうなもの', 'みなさんは、どれがいちばん珍しいと思いますか？'],
-			['美味しそうなもの', 'みなさんは、どれがいちばん美味しいと思いますか？'],
-			['重そうなもの', 'みなさんは、どれがいちばん重いと思いますか？'],
-			['欲しいもの', 'みなさんは、どれがいちばん欲しいですか？'],
-			['無人島に持っていきたいもの', 'みなさんは、無人島にひとつ持っていけるとしたらどれにしますか？'],
-			['家に飾りたいもの', 'みなさんは、家に飾るとしたらどれにしますか？'],
-			['売れそうなもの', 'みなさんは、どれがいちばん売れそうだと思いますか？'],
-			['降ってきてほしいもの', 'みなさんは、どれが空から降ってきてほしいですか？'],
-			['携帯したいもの', 'みなさんは、どれを携帯したいですか？'],
-			['商品化したいもの', 'みなさんは、商品化するとしたらどれにしますか？'],
-			['発掘されそうなもの', 'みなさんは、遺跡から発掘されそうなものはどれだと思いますか？'],
-			['良い香りがしそうなもの', 'みなさんは、どれがいちばんいい香りがすると思いますか？'],
-			['高値で取引されそうなもの', 'みなさんは、どれがいちばん高値で取引されると思いますか？'],
-			['地球周回軌道上にありそうなもの', 'みなさんは、どれが地球周回軌道上を漂っていそうだと思いますか？'],
-			['プレゼントしたいもの', 'みなさんは、私にプレゼントしてくれるとしたらどれにしますか？'],
-			['プレゼントされたいもの', 'みなさんは、プレゼントでもらうとしたらどれにしますか？'],
-			['私が持ってそうなもの', 'みなさんは、私が持ってそうなものはどれだと思いますか？'],
-			['流行りそうなもの', 'みなさんは、どれが流行りそうだと思いますか？'],
-			['朝ごはん', 'みなさんは、朝ごはんにどれが食べたいですか？'],
-			['お昼ごはん', 'みなさんは、お昼ごはんにどれが食べたいですか？'],
-			['お夕飯', 'みなさんは、お夕飯にどれが食べたいですか？'],
-			['体に良さそうなもの', 'みなさんは、どれが体に良さそうだと思いますか？'],
-			['後世に遺したいもの', 'みなさんは、どれを後世に遺したいですか？'],
-			['楽器になりそうなもの', 'みなさんは、どれが楽器になりそうだと思いますか？'],
-			['お味噌汁の具にしたいもの', 'みなさんは、お味噌汁の具にするとしたらどれがいいですか？'],
-			['ふりかけにしたいもの', 'みなさんは、どれをごはんにふりかけたいですか？'],
-			['よく見かけるもの', 'みなさんは、どれをよく見かけますか？'],
-			['道に落ちてそうなもの', 'みなさんは、道端に落ちてそうなものはどれだと思いますか？'],
-			['美術館に置いてそうなもの', 'みなさんは、この中で美術館に置いてありそうなものはどれだと思いますか？'],
-			['教室にありそうなもの', 'みなさんは、教室にありそうなものってどれだと思いますか？'],
-			['絵文字になってほしいもの', '絵文字になってほしいものはどれですか？'],
-			['Misskey本部にありそうなもの', 'みなさんは、Misskey本部にありそうなものはどれだと思いますか？'],
-			['燃えるゴミ', 'みなさんは、どれが燃えるゴミだと思いますか？'],
-			['好きなおにぎりの具', 'みなさんの好きなおにぎりの具はなんですか？'],
+			['Something that looks unusual', 'Which do you think is the most unusual?']
+			['Something that looks delicious', 'Which do you think is the most delicious?']
+			['Something that looks heavy', 'Which do you think is the heaviest?']
+			['Something I want', 'Which do you want the most?']
+			['Something I would like to take to a desert island', 'If you could take one thing to a desert island, which would it be?']
+			['Something I would like to display in my home', 'Which would you display in your home?']
+			['Something that is likely to sell', 'Which do you think is most likely to sell?']
+			['Something I wish would fall from the sky', 'Which would you like to fall from the sky?']
+			['Something I would like to carry with me', 'Which would you like to carry with me? '],
+			["Things you'd like to commercialize', 'If you were to commercialize something, which one would you choose?"],
+			["Things you'd likely find unearthed', 'What do you think would be unearthed from ruins?"],
+			["Things you'd like to smell nice', 'Which one do you think smells the nicest?"],
+			["Things you'd like to see in Earth's orbit', 'Which one do you think is floating in Earth's orbit?"],
+			["Things you'd like to give as a gift', 'If someone were to give you something, which one would you choose?"],
+			["Things you'd like to receive as a gift', 'If you were to receive something as a gift, which one would you choose?"],
+			["Things I'd probably own', 'Which one do you think I'd own? "],
+			['Things that might become popular', 'Which do you think will become popular?'],
+			['Breakfast', 'What would you like to eat for breakfast?'],
+			['Lunch', 'What would you like to eat for lunch?'],
+			['Dinner', 'What would you like to eat for dinner?'],
+			['Things that seem good for your health', 'Which do you think is good for your health?'],
+			["Things you'd like to leave for future generations', 'Which would you like to leave for future generations?"],
+			['Things that might become musical instruments', 'Which do you think could become musical instruments?'],
+			["Things that you'd like to use as ingredients in miso soup', 'Which would be good as an ingredient in miso soup? "],
+			['What would you like to make into a furikake (sprinkle topping)?', 'Which one would you like to sprinkle on rice?'],
+			['Things you often see', 'Which one do you see often?'],
+			["Things that seem like they'd be found on the street', 'Which one do you think would be found on the street?"],
+			["Things that seem like they'd be in an art museum', 'Which one of these do you think would be in an art museum?"],
+			["Things that seem like they'd be in a classroom', 'Which one do you think would be in a classroom?"],
+			["Things that seem like they'd be in an emoji', 'Which one do you think would be in an emoji?"],
+			["Things that seem like they'd be in Misskey Headquarters', 'Which one do you think would be in Misskey Headquarters?"],
+			['Burnable trash', 'Which one do you think is burnable trash? '],
+			['Favorite onigiri filling', 'What is your favorite onigiri filling?'],
 		];
 
 		const poll = polls[Math.floor(Math.random() * polls.length)];
@@ -82,7 +81,7 @@ export default class extends Module {
 			}
 		});
 
-		// タイマーセット
+		// Timer Set
 		this.setTimeoutWithPersistence(duration + 3000, {
 			title: poll[0],
 			noteId: note.id,
@@ -125,20 +124,20 @@ export default class extends Module {
 
 		if (mostVotedChoice.votes === 0) {
 			this.ai.post({ // TODO: Extract serif
-				text: '投票はありませんでした',
+				text: 'There was no vote',
 				renoteId: noteId,
 			});
 		} else if (mostVotedChoices.length === 1) {
 			this.ai.post({ // TODO: Extract serif
-				cw: `${title}アンケートの結果発表です！`,
-				text: `結果は${mostVotedChoice.votes}票の「${mostVotedChoice.text}」でした！`,
+				cw: `${title}The results of the survey are announced!`,
+				text: `The result is${mostVotedChoice.votes}of votes「${mostVotedChoice.text}」It was!`,
 				renoteId: noteId,
 			});
 		} else {
 			const choices = mostVotedChoices.map(choice => `「${choice.text}」`).join('と');
 			this.ai.post({ // TODO: Extract serif
 				cw: `${title}アンケートの結果発表です！`,
-				text: `結果は${mostVotedChoice.votes}票の${choices}でした！`,
+				text: `The result is${mostVotedChoice.votes}of votes${choices}It was!`,
 				renoteId: noteId,
 			});
 		}
