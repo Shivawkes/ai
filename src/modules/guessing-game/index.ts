@@ -30,7 +30,7 @@ export default class extends Module {
 
 	@bindThis
 	private async mentionHook(msg: Message) {
-		if (!msg.includes(['数当て', '数あて'])) return false;
+		if (!msg.includes(['Guess the number', 'Guess the number'])) return false;
 
 		const exist = this.guesses.findOne({
 			userId: msg.userId,
@@ -64,7 +64,7 @@ export default class extends Module {
 			isEnded: false
 		});
 
-		 // 処理の流れ上、実際にnullになることは無さそうだけど一応
+		 // In the process, it seems unlikely that it will actually become null, but just in case
 		if (exist == null) {
 			this.unsubscribeReply(key);
 			return;
