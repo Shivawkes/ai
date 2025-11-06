@@ -42,14 +42,14 @@ export default class extends Module {
 
 	@bindThis
 	private async mentionHook(msg: Message) {
-		if (!msg.includes(['数取り'])) return false;
+		if (!msg.includes(['Counting'])) return false;
 
 		const games = this.games.find({});
 
 		const recentGame = games.length == 0 ? null : games[games.length - 1];
 
 		if (recentGame) {
-			// 現在アクティブなゲームがある場合
+			// If there is a currently active game
 			if (!recentGame.isEnded) {
 				msg.reply(serifs.kazutori.alreadyStarted, {
 					renote: recentGame.postId
@@ -57,7 +57,7 @@ export default class extends Module {
 				return true;
 			}
 
-			// 直近のゲームから1時間経ってない場合
+			// If it has been less than an hour since your last game
 			if (Date.now() - recentGame.startedAt < 1000 * 60 * 60) {
 				msg.reply(serifs.kazutori.matakondo);
 				return true;
@@ -92,10 +92,10 @@ export default class extends Module {
 			isEnded: false
 		});
 
-		// 処理の流れ上、実際にnullになることは無さそうだけど一応
+		// In the process, it seems unlikely that it will actually become null, but just in case
 		if (game == null) return;
 
-		// 既に数字を取っていたら
+		//If you already have the numbers
 		if (game.votes.some(x => x.user.id == msg.userId)) return {
 			reaction: 'confused'
 		};
@@ -107,19 +107,19 @@ export default class extends Module {
 
 		const num = parseInt(match[0], 10);
 
-		// 整数じゃない
+		// Not an integer
 		if (!Number.isInteger(num)) return {
 			reaction: 'hmm'
 		};
 
-		// 範囲外
+		// Out of range
 		if (num < 0 || num > 100) return {
 			reaction: 'confused'
 		};
 
 		this.log(`Voted ${num} by ${msg.user.id}`);
 
-		// 投票
+		// vote
 		game.votes.push({
 			user: {
 				id: msg.user.id,
@@ -137,7 +137,7 @@ export default class extends Module {
 	}
 
 	/**
-	 * 終了すべきゲームがないかチェック
+	 * Check if there are any games to close
 	 */
 	@bindThis
 	private crawleGameEnd() {
@@ -147,14 +147,14 @@ export default class extends Module {
 
 		if (game == null) return;
 
-		// 制限時間が経過していたら
+		// If the time limit has passed
 		if (Date.now() - game.startedAt >= 1000 * 60 * limitMinutes) {
 			this.finish(game);
 		}
 	}
 
 	/**
-	 * ゲームを終わらせる
+	 * End the game
 	 */
 	@bindThis
 	private finish(game: Game) {
@@ -163,7 +163,7 @@ export default class extends Module {
 
 		this.log('Kazutori game finished');
 
-		// お流れ
+		// Flow
 		if (game.votes.length <= 1) {
 			this.ai.post({
 				text: serifs.kazutori.onagare,
