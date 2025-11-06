@@ -16,9 +16,9 @@ export default class extends Module {
 
 	@bindThis
 	private async mentionHook(msg: Message) {
-		const secondsQuery = (msg.text || '').match(/([0-9]+)秒/);
-		const minutesQuery = (msg.text || '').match(/([0-9]+)分/);
-		const hoursQuery = (msg.text || '').match(/([0-9]+)時間/);
+		const secondsQuery = (msg.text || '').match(/([0-9]+)Second/);
+		const minutesQuery = (msg.text || '').match(/([0-9]+)Minute/);
+		const hoursQuery = (msg.text || '').match(/([0-9]+)Time/);
 
 		const seconds = secondsQuery ? parseInt(secondsQuery[1], 10) : 0;
 		const minutes = minutesQuery ? parseInt(minutesQuery[1], 10) : 0;
@@ -45,7 +45,7 @@ export default class extends Module {
 
 		const str = `${hours ? hoursQuery![0] : ''}${minutes ? minutesQuery![0] : ''}${seconds ? secondsQuery![0] : ''}`;
 
-		// タイマーセット
+		// Timer Set
 		this.setTimeoutWithPersistence(time, {
 			isChat: msg.isChat,
 			msgId: msg.id,
@@ -59,7 +59,7 @@ export default class extends Module {
 	@bindThis
 	private timeoutCallback(data) {
 		const friend = this.ai.lookupFriend(data.userId);
-		if (friend == null) return; // 処理の流れ上、実際にnullになることは無さそうだけど一応
+		if (friend == null) return; // In the process, it seems unlikely that it will actually become null, but just in case
 		const text = serifs.timer.notify(data.time, friend.name);
 		if (data.isChat) {
 			this.ai.sendMessage(friend.userId, {
