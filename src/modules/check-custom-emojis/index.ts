@@ -58,7 +58,7 @@ export default class extends Module {
 			}
 		}
 		if (emojisData === null) {
-			const errMessage = 'read:admin:emoji権限がないため、エラーが発生しました。\nカスタム絵文字管理の権限が付与されているか見直しをお願いします。';
+			const errMessage = 'read:admin:emojiAn error occurred due to insufficient permissions.\nPlease check whether you have been granted permission to manage custom emojis. ';
 			this.log(errMessage);
 			await this.ai.post({
 				text: errMessage
@@ -75,22 +75,22 @@ export default class extends Module {
 			return;
 		}
 
-		// 絵文字データが取得された場合、元々のデータを削除しておく
+		// If emoji data is obtained, delete the original data.
 		const emojiSize = emojisData.length;
 		this.lastEmoji.remove(lastEmoji);
 
-		const server_name = config.serverName ? config.serverName : 'このサーバー';
+		const server_name = config.serverName ? config.serverName : 'This server';
 		this.log('Posting...');
 
-		// 一気に投稿しないver
+		// Don't post all at once
 		if (!config.checkEmojisAtOnce){
-			// 概要について投稿
+			// Post about summary
 			this.log(serifs.checkCustomEmojis.post(server_name, emojiSize));
 			await this.ai.post({
 				text: serifs.checkCustomEmojis.post(server_name, emojiSize)
 			});
 
-			// 各絵文字について投稿
+			// Post about each emoji
 			for (const emoji of emojisData){
 				await this.ai.post({
 					text: serifs.checkCustomEmojis.emojiPost(emoji.name)
@@ -98,7 +98,7 @@ export default class extends Module {
 				this.log(serifs.checkCustomEmojis.emojiPost(emoji.name));
 			}
 		} else {
-			// 一気に投稿ver
+			// All-at-once posting version
 			let text = '';
 			for (const emoji of emojisData){
 				text += serifs.checkCustomEmojis.emojiOnce(emoji.name);
@@ -110,7 +110,7 @@ export default class extends Module {
 			});
 		}
 
-		// データの保存
+		// Data storage
 		this.log('Last CustomEmojis data saving...');
 		this.log(JSON.stringify(emojisData[emojiSize-1],null,'\t'));
 		this.lastEmoji.insertOne({
@@ -136,12 +136,12 @@ export default class extends Module {
 				limit: 100
 			});
 
-			// 最後まで取得
+			// Get to the end
 			let beforeEmoji = null;
 			let afterEmoji = emojisData.length > 1 ? emojisData[0] : null;
 			while(emojisData.length == 100 && beforeEmoji != afterEmoji){
 				const lastId = emojisData[emojisData.length-1].id;
-				// sinceIdを指定して再度取り直す
+				// Specify sinceId and try again
 				emojisData = await this.ai.api('admin/emoji/list', {
 					limit: 100,
 					sinceId: lastId
@@ -151,7 +151,7 @@ export default class extends Module {
 				await this.sleep(50);
 			}
 
-			// sinceIdが未指定の場合、末尾から5件程度にしておく
+			// If sinceId is not specified, set it to about 5 items from the end
 			let newJson: any[] = [];
 			for (let i = emojisData.length - 5; i < emojisData.length; i++) {
 				newJson.push(emojisData[i]);
@@ -163,7 +163,7 @@ export default class extends Module {
 
 	@bindThis
 	private async mentionHook(msg: Message) {
-		if (!msg.includes(['カスタム絵文字チェック','カスタムえもじチェック','カスタムえもじを調べて','カスタムえもじを確認'])) {
+		if (!msg.includes(['Check Custom Emoji','Check Custom Emoji','Check Custom Emoji','Check Custom Emoji'])) {
 			return false;
 		} else {
 			this.log('Check CustomEmojis requested');
