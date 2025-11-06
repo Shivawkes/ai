@@ -44,7 +44,7 @@ export default class Message {
 	}
 
 	/**
-	 * メンション部分を除いたテキスト本文
+	 * The text body excluding mentions
 	 */
 	public get extractedText(): string {
 		const host = new URL(config.host).host.replace(/\./g, '\\.');
@@ -64,7 +64,7 @@ export default class Message {
 
 		this.friend = new Friend(ai, { user: this.user });
 
-		// メッセージなどに付いているユーザー情報は省略されている場合があるので完全なユーザー情報を持ってくる
+		// User information attached to messages may be omitted, so bring the complete user information.
 		this.ai.api('users/show', {
 			userId: this.userId
 		}).then(user => {
