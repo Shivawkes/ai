@@ -3,6 +3,7 @@
 
 ## What's this?
 This is an English version of a Japanese bot for Misskey that was created by Syuilo the Engineer behind the Misskey project.
+<p> I have also changed "ai.png" and "ai.svg" from the original Indigo Mascot to match the branding of <a href="https://byzantinenexus.io">ByzNex</a>.  The orignal files are in <a href="https://github.com/syuilo/ai">Syuilo/AI</a></p>
 
 ## Installation
 > Node.js, npm, and MeCab (optional) must be installed.
