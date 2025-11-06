@@ -17,7 +17,7 @@ export default class extends Module {
 		isChat: boolean;
 		thing: string | null;
 		quoteId: string | null;
-		times: number; // 催促した回数(使うのか？)
+		times: number; // Number of times requested (will it be used?)
 		createdAt: number;
 	}>;
 
@@ -77,19 +77,19 @@ export default class extends Module {
 			createdAt: Date.now(),
 		});
 
-		// メンションをsubscribe
+		// Subscribe to mentions
 		this.subscribeReply(remind!.id, msg.isChat, msg.isChat ? msg.userId : msg.id, {
 			id: remind!.id
 		});
 
 		if (msg.quoteId) {
-			// 引用元をsubscribe
+			// Subscribe to the source
 			this.subscribeReply(remind!.id, false, msg.quoteId, {
 				id: remind!.id
 			});
 		}
 
-		// タイマーセット
+		// Timer Set
 		this.setTimeoutWithPersistence(NOTIFY_INTERVAL, {
 			id: remind!.id,
 		});
@@ -113,8 +113,8 @@ export default class extends Module {
 			return;
 		}
 
-		const done = msg.includes(['done', 'やった', 'やりました', 'はい']);
-		const cancel = msg.includes(['やめる', 'やめた', 'キャンセル']);
+		const done = msg.includes(['done', 'I did it', 'I did it', 'Yes']);
+		const cancel = msg.includes(['Stop', 'Quit', 'Cancel']);
 		const isOneself = msg.userId === remind.userId;
 
 		if ((done || cancel) && isOneself) {
@@ -142,7 +142,7 @@ export default class extends Module {
 		this.reminds.update(remind);
 
 		const friend = this.ai.lookupFriend(remind.userId);
-		if (friend == null) return; // 処理の流れ上、実際にnullになることは無さそうだけど一応
+		if (friend == null) return; // In the process, it seems unlikely that it will actually become null, but just in case
 
 		let reply;
 		if (remind.isChat) {
@@ -156,7 +156,7 @@ export default class extends Module {
 					text: acct(friend.doc.user) + ' ' + serifs.reminder.notify(friend.name)
 				});
 			} catch (err) {
-				// renote対象が消されていたらリマインダー解除
+				// Cancel reminder if renote target has been deleted
 				if (err.statusCode === 400) {
 					this.unsubscribeReply(remind.thing == null && remind.quoteId ? remind.quoteId : remind.id);
 					this.reminds.remove(remind);
@@ -170,7 +170,7 @@ export default class extends Module {
 			id: remind.id
 		});
 
-		// タイマーセット
+		// Timer Set
 		this.setTimeoutWithPersistence(NOTIFY_INTERVAL, {
 			id: remind.id,
 		});
