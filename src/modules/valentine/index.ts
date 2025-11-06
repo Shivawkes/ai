@@ -15,7 +15,7 @@ export default class extends Module {
 	}
 
 	/**
-	 * チョコ配り
+	 * Handing out chocolate
 	 */
 	@bindThis
 	private crawleValentine() {
@@ -31,7 +31,7 @@ export default class extends Module {
 		friends.forEach(f => {
 			const friend = new Friend(this.ai, { doc: f });
 
-			// 親愛度が5以上必要
+			// Affection level must be 5 or higher
 			if (friend.love < 5) return;
 
 			const data = friend.getPerModulesData(this);
