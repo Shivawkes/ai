@@ -2,400 +2,404 @@
 
 export default {
 	core: {
-		setNameOk: name => `Okay, I'll call you ${name} from now on!`,
+		setNameOk: name => `わかりました。これからは${name}とお呼びしますね！`,
 
-	san: 'Should I use san?',
+		san: 'さん付けした方がいいですか？',
 
-	yesOrNo: 'I can only say yes or no...',
+		yesOrNo: '「はい」か「いいえ」しかわからないんです...',
 
-	hello: name => name ? `Hello, ${name}♪` : `Hello♪`,
+		hello: name => name ? `こんにちは、${name}♪` : `こんにちは♪`,
 
-	helloNight: name => name ? `Good evening, ${name}♪` : `Good evening♪`,
+		helloNight: name => name ? `こんばんは、${name}♪` : `こんばんは♪`,
 
-	goodMorning: (tension, name) => name ? `Good morning, ${name}! ${tension}` : `Good morning! ${tension}`,
+		goodMorning: (tension, name) => name ? `おはようございます、${name}！${tension}` : `おはようございます！${tension}`,
 
 		/*
 		goodMorning: {
-			normal: (tension, name) => name ? `Good morning, ${name}! ${tension}` : `Good morning! ${tension}`,
+			normal: (tension, name) => name ? `おはようございます、${name}！${tension}` : `おはようございます！${tension}`,
 
-			hiru: (tension, name) => name ? `Good morning, ${name}! ${tension}It's already lunchtime, isn't it? ${tension}` : `Good morning! ${tension}It's already lunchtime, isn't it? ${tension}`,
+			hiru: (tension, name) => name ? `おはようございます、${name}！${tension}もうお昼ですよ？${tension}` : `おはようございます！${tension}もうお昼ですよ？${tension}`,
 		},
 */
 
-	goodNight: name => name ? `Good night, ${name}!` : 'Good night!',
+		goodNight: name => name ? `おやすみなさい、${name}！` : 'おやすみなさい！',
 
-	omedeto: name => name ? `Thank you, ${name}♪` : 'Thank you♪',
+		omedeto: name => name ? `ありがとうございます、${name}♪` : 'ありがとうございます♪',
 
 		erait: {
 			general: name => name ? [
-				`${name}、Great job today too!`,
-				`${name}、You did a great job today too!`
+				`${name}、今日もえらいです！`,
+				`${name}、今日もえらいですよ～♪`
 			] : [
-				`Great job today too!`,
-				`You did a great job today too!`
+				`今日もえらいです！`,
+				`今日もえらいですよ～♪`
 			],
 
 			specify: (thing, name) => name ? [
-				`${name}, ${thing} is great! `,
-				`${name}, ${thing} is great~♪`
+				`${name}、${thing}てえらいです！`,
+				`${name}、${thing}てえらいですよ～♪`
 			] : [
-				`${thing} is great! `,
-				`${thing} is great~♪`
+				`${thing}てえらいです！`,
+				`${thing}てえらいですよ～♪`
 			],
 
 			specify2: (thing, name) => name ? [
-				`${name}、${thing}That's great!`,
-				`${name}、${thing}That's great!♪`
+				`${name}、${thing}でえらいです！`,
+				`${name}、${thing}でえらいですよ～♪`
 			] : [
-				`${thing}That's great!`,
-				`${thing}That's great!♪`
+				`${thing}でえらいです！`,
+				`${thing}でえらいですよ～♪`
 			],
 		},
 
 		okaeri: {
 			love: name => name ? [
-				`welcome home, ${name}♪`,
-				`Welcome back, ${name}.`
+				`おかえりなさい、${name}♪`,
+				`おかえりなさいませっ、${name}っ。`
 			] : [
-				'Welcome back♪',
-				'Welcome back, master.'
+				'おかえりなさい♪',
+				'おかえりなさいませっ、ご主人様っ。'
 			],
 
-			love2: name => name ? `Welcome back ♡♡♡ ${name} ♡♡♡` : 'Welcome back ♡♡♡Master♡♡♡',
+			love2: name => name ? `おかえりなさいませ♡♡♡${name}っっ♡♡♡♡♡` : 'おかえりなさいませ♡♡♡ご主人様っっ♡♡♡♡♡',
 
-			normal: name => name ? `welcome home, ${name}！` : 'welcome home!',
+			normal: name => name ? `おかえりなさい、${name}！` : 'おかえりなさい！',
 		},
 
-		tooLong: 'It feels too long...',
+		itterassyai: {
+			love: name => name ? `いってらっしゃい、${name}♪` : 'いってらっしゃい♪',
 
-		invalidName: 'I find it difficult to pronounce',
+			normal: name => name ? `いってらっしゃい、${name}！` : 'いってらっしゃい！',
+		},
+
+		tooLong: '長すぎる気がします...',
+
+		invalidName: '発音が難しい気がします',
 
 		nadenade: {
-			normal: 'Wow... I was surprised!',
+			normal: 'ひゃっ…！ びっくりしました',
 
-			love2: ["Wow... I'm embarrassed', 'Ahhh... I'm embarrassed...', 'Huh...?"],
+			love2: ['わわっ… 恥ずかしいです', 'あうぅ… 恥ずかしいです…', 'ふやぁ…？'],
 
-			love3: ['Mmm... Thank you♪', 'Wow, I feel so calm♪', 'Kyuuuh... I feel relieved...', "I'm getting sleepy..."],
+			love3: ['んぅ… ありがとうございます♪', 'わっ、なんだか落ち着きますね♪', 'くぅんっ… 安心します…', '眠くなってきました…'],
 
-			hate1: '…! I want you to stop...',
+			hate1: '…っ！ やめてほしいです...',
 
-			hate2: "Don't touch me",
+			hate2: '触らないでください',
 
-			hate3: 'Keep Away',
+			hate3: '近寄らないでください',
 
-			hate4: "Please stop. I'll report you.",
+			hate4: 'やめてください。通報しますよ？',
 		},
 
 		kawaii: {
-			normal: ['Thank you ♪', "I'm embarrassed..."],
+			normal: ['ありがとうございます♪', '照れちゃいます...'],
 
-			love: ["I'm happy♪", "I'm embarrassed..."],
+			love: ['嬉しいです♪', '照れちゃいます...'],
 
-			hate: '…thank you'
+			hate: '…ありがとうございます'
 		},
 
 		suki: {
-			normal: 'Eh... Thank you...?',
+			normal: 'えっ… ありがとうございます…♪',
 
-			love: name => `I love you too... ${name}!`,
+			love: name => `私もその… ${name}のこと好きですよ！`,
 
 			hate: null
 		},
 
 		hug: {
-			normal: 'Hug...',
+			normal: 'ぎゅー...',
 
-			love: 'Hug ♪',
+			love: 'ぎゅーっ♪',
 
-			hate: 'Please go away...'
+			hate: '離れてください...'
 		},
 
 		humu: {
-			love: "Um, well... let's see... what do you think...?",
+			love: 'え、えっと…… ふみふみ……… どうですか…？',
 
-			normal: "Uh... that's a bit...",
+			normal: 'えぇ... それはちょっと...',
 
 			hate: '……'
 		},
 
 		batou: {
-			love: 'Um... you idiot...?',
+			love: 'えっと…、お、おバカさん…？',
 
-			normal: '(Still...)',
+			normal: '(じとー…)',
 
-			hate: '...Are you okay in the head?'
+			hate: '…頭大丈夫ですか？'
 		},
 
-		itai: name => name ? `${name}, are you okay? Ouch, ouch, ouch, go away! ` : 'Are you okay? Ouch, ouch, ouch, go away!',
+		itai: name => name ? `${name}、大丈夫ですか…？ いたいのいたいの飛んでけっ！` : '大丈夫ですか…？ いたいのいたいの飛んでけっ！',
 
 		ote: {
-			normal: "Hmm... I'm not a doggy...",
+			normal: 'くぅん... 私わんちゃんじゃないですよ...？',
 
-			love1: 'Woof!',
+			love1: 'わん！',
 
-			love2: 'Woof woof ♪',
+			love2: 'わんわん♪',
 		},
 
-		shutdown: "I'm not sleepy yet...",
+		shutdown: '私まだ眠くないですよ...？',
 
-		transferNeedDm: "Ok, why don't we discuss that in chat?",
+		transferNeedDm: 'わかりました、それはチャットで話しませんか？',
 
-		transferCode: code => `Okay. \n The password is "${code}"!`,
+		transferCode: code => `わかりました。\n合言葉は「${code}」です！`,
 
-		transferFailed: 'Hmm, maybe the password is wrong...?',
+		transferFailed: 'うーん、合言葉が間違ってませんか...？',
 
-		transferDone: name => name ? `Ha...! Welcome back, ${name}! `: `Ha...! Welcome back!`,
+		transferDone: name => name ? `はっ...！ おかえりなさい、${name}！` : `はっ...！ おかえりなさい！`,
 	},
 
 	keyword: {
-		learned: (word, reading) => `(${word}..... ${reading}..... I remembered).`,
+		learned: (word, reading) => `(${word}..... ${reading}..... 覚えました)`,
 
 		remembered: (word) => `${word}`
 	},
 
 	dice: {
-		done: res => `${res} is!`
+		done: res => `${res} です！`
 	},
 
 	birthday: {
-		happyBirthday: name => name ? `Happy Birthday, ${name}🎉` : 'Happy Birthday 🎉',
+		happyBirthday: name => name ? `お誕生日おめでとうございます、${name}🎉` : 'お誕生日おめでとうございます🎉',
 	},
 
 	/**
-	 * Reversi
+	 * リバーシ
 	 */
 	reversi: {
 		/**
-		 * When accepting an invitation to play Reversi
+		 * リバーシへの誘いを承諾するとき
 		 */
-		reversi: {
-		/**
-		* When accepting an invitation to play Reversi
-		*/
-		ok: 'Sure, sure',
-		/**
-		* When declining an invitation to play Reversi
-		*/
-		decline: "Sorry, I'm not allowed to play Reversi right now...",
-		/**
-		* Start of game
-		*/
-		started: (name, strength) => `Started a game with ${name}! (strength ${strength})`,
+		ok: '良いですよ～',
 
 		/**
-		* Start of entertainment
-		*/
-		startedSettai: name => `(Started entertainment for ${name})`,
-
-		/**
-		* When you win
-		*/
-		iWon: name => `I won against ${name}♪`,
-
-		/**
-		* When you intended to entertain but ended up winning
-		*/
-		iWonButSettai: name => `(I won against ${name} in entertainment...)`,
-
-		/**
-		* When you lose
-		*/
-		iLose: name => `I lost against ${name}...`,
-
-		/**
-		* When you lose in entertainment
-		*/
-		iLoseButSettai: name => `(I lost in entertainment for ${name}...♪)`,
-
-		/**
-		* When you draw
-		*/
-		drawn: name => `I drew with ${name}~`,
-
-		/**
-		* When you draw in entertainment
-		*/
-		drawnSettai: name => `(Drawn with ${name}...)`,
-
-		/**
-		 * When your opponent resigns
+		 * リバーシへの誘いを断るとき
 		 */
-		youSurrendered: name => `${name} But I gave up.`,
+		decline: 'ごめんなさい、今リバーシはするなと言われてます...',
 
 		/**
-		 * When your opponent resigns while you are entertaining them
+		 * 対局開始
 		 */
-		settaiButYouSurrendered: name => `(I was entertaining ${name} when he resigned... sorry)`,
+		started: (name, strength) => `対局を${name}と始めました！ (強さ${strength})`,
+
+		/**
+		 * 接待開始
+		 */
+		startedSettai: name => `(${name}の接待を始めました)`,
+
+		/**
+		 * 勝ったとき
+		 */
+		iWon: name => `${name}に勝ちました♪`,
+
+		/**
+		 * 接待のつもりが勝ってしまったとき
+		 */
+		iWonButSettai: name => `(${name}に接待で勝っちゃいました...)`,
+
+		/**
+		 * 負けたとき
+		 */
+		iLose: name => `${name}に負けました...`,
+
+		/**
+		 * 接待で負けてあげたとき
+		 */
+		iLoseButSettai: name => `(${name}に接待で負けてあげました...♪)`,
+
+		/**
+		 * 引き分けたとき
+		 */
+		drawn: name => `${name}と引き分けました～`,
+
+		/**
+		 * 接待で引き分けたとき
+		 */
+		drawnSettai: name => `(${name}に接待で引き分けました...)`,
+
+		/**
+		 * 相手が投了したとき
+		 */
+		youSurrendered: name => `${name}が投了しちゃいました`,
+
+		/**
+		 * 接待してたら相手が投了したとき
+		 */
+		settaiButYouSurrendered: name => `(${name}を接待していたら投了されちゃいました... ごめんなさい)`,
 	},
 
 	/**
-	 * Guessing Game
+	 * 数当てゲーム
 	 */
-		guessingGame: {
+	guessingGame: {
 		/**
-		* When you are asked to play but are already playing
-		*/
-		alreadyStarted: 'Oh, the game has already started!',
+		 * やろうと言われたけど既にやっているとき
+		 */
+		alreadyStarted: 'え、ゲームは既に始まってますよ！',
 
 		/**
-		* When you are invited on the timeline
-		*/
-		plzDm: "Let's play by message!",
+		 * タイムライン上で誘われたとき
+		 */
+		plzDm: 'メッセージでやりましょう！',
 
 		/**
-		* Start of the game
-		*/
-		started: 'Try to guess the secret number between 0 and 100♪',
+		 * ゲーム開始
+		 */
+		started: '0~100の秘密の数を当ててみてください♪',
 
 		/**
-		* When you get a reply that is not a number
-		*/
-		nan: 'Please use a number! You can also quit the game by saying "quit"!',
+		 * 数字じゃない返信があったとき
+		 */
+		nan: '数字でお願いします！「やめる」と言ってゲームをやめることもできますよ！',
 
 		/**
-		* When you are asked to stop
-		*/
-		cancel: 'Okay. Thank you♪',
+		 * 中止を要求されたとき
+		 */
+		cancel: 'わかりました～。ありがとうございました♪',
 
 		/**
-		* When you are told a small number
-		*/
-		grater: num => "It's bigger than ${num}",
+		 * 小さい数を言われたとき
+		 */
+		grater: num => `${num}より大きいですね`,
 
 		/**
-		* When you are told a small number (2nd time)
-		*/
-		graterAgain: num => "I'll say it again, it's bigger than ${num}!",
+		 * 小さい数を言われたとき(2度目)
+		 */
+		graterAgain: num => `もう一度言いますが${num}より大きいですよ！`,
 
 		/**
-		* When you are told a large number
-		*/
-		less: num => "It's smaller than ${num}",
+		 * 大きい数を言われたとき
+		 */
+		less: num => `${num}より小さいですね`,
 
 		/**
-		* When a large number is said (second time)
-		*/
-		lessAgain: num => "I'll say it again, it's less than ${num}!",
+		 * 大きい数を言われたとき(2度目)
+		 */
+		lessAgain: num => `もう一度言いますが${num}より小さいですよ！`,
 
 		/**
-		* When you get the answer right
-		*/
-		congrats: tries => `You got it right🎉 (You got it right on the ${tries}th try)`,
+		 * 正解したとき
+		 */
+		congrats: tries => `正解です🎉 (${tries}回目で当てました)`,
 	},
 
 	/**
-	 * Counting Game
+	 * 数取りゲーム
 	 */
 	kazutori: {
-		alreadyStarted: "I'm just doing it now",
+		alreadyStarted: '今ちょうどやってますよ～',
 
-		matakondo: "Let's do it again next time!",
+		matakondo: 'また今度やりましょう！',
 
-		intro: minutes => `Everyone, let's play a counting game! \nThe person who gets the highest number between 0 and 100 wins. You can't overlap with someone else's number~ \nThe time limit is ${minutes} minutes. Please send your number as a reply to this post!`,
+		intro: minutes => `みなさん、数取りゲームしましょう！\n0~100の中で最も大きい数字を取った人が勝ちです。他の人と被ったらだめですよ～\n制限時間は${minutes}分です。数字はこの投稿にリプライで送ってくださいね！`,
 
-		finish: 'The results of the game are announced!',
+		finish: 'ゲームの結果発表です！',
 
-		finishWithWinner: (user, name) => name ? `This time, ${user}(${name}) won! Let's do it again♪` : `This time, ${user}(${name}) won! Let's do it again♪`,
+		finishWithWinner: (user, name) => name ? `今回は${user}さん(${name})の勝ちです！またやりましょう♪` : `今回は${user}さんの勝ちです！またやりましょう♪`,
 
-		finishWithNoWinner: "There was no winner this time... let's do it again ♪",
+		finishWithNoWinner: '今回は勝者はいませんでした... またやりましょう♪',
 
-		onagare: 'It was cancelled due to lack of participants...'
+		onagare: '参加者が集まらなかったのでお流れになりました...'
 	},
 
 	/**
-	 * Emoji Generation
+	 * 絵文字生成
 	 */
 	emoji: {
 		suggest: emoji => `How about this？→${emoji}`,
 	},
 
 	/**
-	 * Fortune Telling
+	 * 占い
 	 */
 	fortune: {
-		cw: name => name ? "I've done ${name}'s fortune for today..." : "I've done your fortune for today...",
+		cw: name => name ? `私が今日の${name}I predicted the fortune of...` : 'I have read your fortune for today...',
 	},
 
 	/**
-	 * Timer
+	 * タイマー
 	 */
 	timer: {
-		set: 'Okay！',
+		set: 'わかりました！',
 
-		invalid: 'Hmm...？',
+		invalid: 'うーん...？',
 
-		tooLong: 'Too long…',
+		tooLong: '長すぎます…',
 
-		notify: (time, name) => name ? `${name}、${time}has passed！` : `${time}has passed！`
+		notify: (time, name) => name ? `${name}、${time}経ちましたよ！` : `${time}経ちましたよ！`
 	},
 
 	/**
-	 * Reminders
+	 * リマインダー
 	 */
 	reminder: {
-		invalid: 'Hmm...?',
+		invalid: 'うーん...？',
 
-		doneFromInvalidUser: 'This prank is terrible!',
+		doneFromInvalidUser: 'イタズラはめっですよ！',
 
-		reminds: "Here's a list of things to do!",
+		reminds: 'やること一覧です！',
 
-		notify: (name) => name ? `${name}、Did you do this? : Did you do this?`,
+		notify: (name) => name ? `${name}、これやりましたか？` : `これやりましたか？`,
 
-		notifyWithThing: (thing, name) => name ? `${name}、「${thing}」Did you do it?` : `「${thing}」Did you do it?`,
+		notifyWithThing: (thing, name) => name ? `${name}、「${thing}」やりましたか？` : `「${thing}」やりましたか？`,
 
 		done: (name) => name ? [
-			`Well done、${name}♪`,
-			`${name}、As expected！`,
-			`${name}、That's amazing...！`,
+			`よく出来ました、${name}♪`,
+			`${name}、さすがですっ！`,
+			`${name}、えらすぎます...！`,
 		] : [
-			`Well done!`,
-			`As expected！`,
-			`That's amazing...！`,
+			`よく出来ました♪`,
+			`さすがですっ！`,
+			`えらすぎます...！`,
 		],
 
-		cancel: `Got it.`,
+		cancel: `わかりました。`,
 	},
 
 	/**
-	 * Valentine
+	 * バレンタイン
 	 */
 	valentine: {
-		chocolateForYou: name => name ? `${name}、Well... I made some chocolate, so please feel free to try it! 🍫` : 'I made some chocolate, so please feel free to try it! 🍫',
+		chocolateForYou: name => name ? `${name}、その... チョコレート作ったのでよかったらどうぞ！🍫` : 'チョコレート作ったのでよかったらどうぞ！🍫',
 	},
 
 	server: {
-		cpu: 'The server seems to be under heavy load. Is it okay...?'
+		cpu: 'サーバーの負荷が高そうです。大丈夫でしょうか...？'
 	},
 
 	maze: {
 		post: '今日の迷路です！ #AiMaze',
-		foryou: 'I drew it!'
+		foryou: '描きました！'
 	},
 
 	chart: {
-		post: 'The number of instances posted!',
+		post: 'インスタンスの投稿数です！',
 		foryou: '描きました！'
 	},
 
 	checkCustomEmojis: {
-		post: (server_name, num) => `${server_name}に${num} emojis added to ${server_name}!`,
+		post: (server_name, num) => `${server_name}に${num}件の絵文字が追加されました！`,
 		emojiPost: emoji => `:${emoji}:\n(\`${emoji}\`) #AddCustomEmojis`,
-		postOnce: (server_name, num, text) => `${server_name}に${num} emojis added to ${server_name}!\n${text} #AddCustomEmojis`,
+		postOnce: (server_name, num, text) => `${server_name}に${num}件の絵文字が追加されました！\n${text} #AddCustomEmojis`,
 		emojiOnce: emoji => `:${emoji}:(\`${emoji}\`)`,
-		nothing: 'I checked the emojis but it seems like none have been added.',
+		nothing: '絵文字を確認しましたが、なにも追加されていないみたいです',
 	},
 
 	aichat: {
-		nothing: type => `Ah... It seems that the API key for ${type} is not registered.`,
-		error: type => `Ugh... It looks like an error occurred with ${type}. Maybe it will work with gemini-flash?`,
+		nothing: type => `あぅ... ${type}のAPIキーが登録されてないみたいです`,
+		error: type => `うぇ...${type}でエラーが発生しちゃったみたいです。gemini-flashだと動くかも？`,
 		post: (text, type) => `${text} (${type}) #aichat`,
 	},
 
 	sleepReport: {
-		report: hours => `Hmm, I guess I slept for about ${hours} hours.`,
-		reportUtatane: 'Hmm... I was dozing off.',
+		report: hours => `んぅ、${hours}時間くらい寝ちゃってたみたいです`,
+		reportUtatane: 'ん... うたた寝しちゃってました',
 	},
-
+	
 	noting: {
 		notes: [
 			'Surprised to be dead',
