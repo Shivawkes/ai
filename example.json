@@ -3,6 +3,7 @@
 	"i": "_YOUR_BOT_TOKEN",
 	"master": "BOT_MASTER_NAME",
 	"notingEnabled": true,
+	"colorNotes": true,
 	"keywordEnabled": true,
 	"chartEnabled": true,
 	"reversiEnabled": true,
