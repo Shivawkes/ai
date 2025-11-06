@@ -91,9 +91,9 @@ const GEMINI_20_FLASH_API = 'https://generativelanguage.googleapis.com/v1beta/mo
 const GEMINI_15_PRO_API = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent';
 const PLAMO_API = 'https://platform.preferredai.jp/api/completion/v1/chat/completions';
 
-const RANDOMTALK_DEFAULT_PROBABILITY = 0.02;// デフォルトのrandomTalk確率
-const TIMEOUT_TIME = 1000 * 60 * 60 * 0.5;// aichatの返信を監視する時間
-const RANDOMTALK_DEFAULT_INTERVAL = 1000 * 60 * 60 * 12;// デフォルトのrandomTalk間隔
+const RANDOMTALK_DEFAULT_PROBABILITY = 0.02;// Default randomTalk probability
+const TIMEOUT_TIME = 1000 * 60 * 60 * 0.5;// Time to monitor aichat's replies
+const RANDOMTALK_DEFAULT_INTERVAL = 1000 * 60 * 60 * 12;// Default randomTalk interval
 
 export default class extends Module {
 	public readonly name = 'aichat';
@@ -107,11 +107,11 @@ export default class extends Module {
 			indices: ['postId']
 		});
 
-		// 確率は設定されていればそちらを採用(設定がなければデフォルトを採用)
+		// If the probability is set, it will be used (if not, the default will be used).
 		if (config.aichatRandomTalkProbability != undefined && !Number.isNaN(Number.parseFloat(config.aichatRandomTalkProbability))) {
 			this.randomTalkProbability = Number.parseFloat(config.aichatRandomTalkProbability);
 		}
-		// ランダムトーク間隔(分)は設定されていればそちらを採用(設定がなければデフォルトを採用)
+		// If the random talk interval (minutes) is set, it will be used (if not set, the default will be used).
 		if (config.aichatRandomTalkIntervalMinutes != undefined && !Number.isNaN(Number.parseInt(config.aichatRandomTalkIntervalMinutes))) {
 			this.randomTalkIntervalMinutes = 1000 * 60 * Number.parseInt(config.aichatRandomTalkIntervalMinutes);
 		}
@@ -120,7 +120,7 @@ export default class extends Module {
 		this.log('randomTalkIntervalMinutes:' + (this.randomTalkIntervalMinutes / (60 * 1000)));
 		this.log('aichatGroundingWithGoogleSearchAlwaysEnabled:' + config.aichatGroundingWithGoogleSearchAlwaysEnabled);
 
-		// 定期的にデータを取得しaichatRandomTalkを行う
+		// Periodically collect data and perform aichatRandomTalk
 		if (config.aichatRandomTalkEnabled) {
 			setInterval(this.aichatRandomTalk, this.randomTalkIntervalMinutes);
 		}
@@ -136,29 +136,29 @@ export default class extends Module {
 	private async genTextByGemini(aiChat: AiChat, files:base64File[]) {
 		this.log('Generate Text By Gemini...');
 		let parts: GeminiParts = [];
-		const now = new Date().toLocaleString('ja-JP', {
-			timeZone: 'Asia/Tokyo',
+		const now = new Date().toLocaleString('en-US', {
+			timeZone: 'America/New_York',
 			year: 'numeric',
 			month: '2-digit',
 			day: '2-digit',
 			hour: '2-digit',
 			minute: '2-digit'
 		});
-		// 設定のプロンプトに加え、現在時刻を渡す
-		let systemInstructionText = aiChat.prompt + 'また、現在日時は' + now + 'であり、これは回答の参考にし、時刻を聞かれるまで時刻情報は提供しないこと(なお、他の日時は無効とすること)。';
-		// 名前を伝えておく
+		// Prompt for settings and pass the current time
+		let systemInstructionText = aiChat.prompt + 'In addition, the current date and time is ' + now + 'Use this as a reference for your answer, and do not provide time information until you are asked for the time (other dates and times will be invalid). ';
+		// Tell me your name
 		if (aiChat.friendName != undefined) {
-			systemInstructionText += 'なお、会話相手の名前は' + aiChat.friendName + 'とする。';
+			systemInstructionText += 'The name of the person you are talking to is ' + aiChat.friendName + "Let's say. ";
 		}
-		// ランダムトーク機能(利用者が意図(メンション)せず発動)の場合、ちょっとだけ配慮しておく
+		// In the case of the random talk function (which is activated without the user's intention (mention)), please be a little careful.
 		if (!aiChat.fromMention) {
-			systemInstructionText += 'これらのメッセージは、あなたに対するメッセージではないことを留意し、返答すること(会話相手は突然話しかけられた認識している)。';
+			systemInstructionText += 'Please remember that these messages are not directed at you and respond accordingly (the person you are speaking to will know that they are being spoken to unexpectedly). ';
 		}
-		// グラウンディングについてもsystemInstructionTextに追記(こうしないとあまり使わないので)
+		// Add grounding to systemInstructionText (because it's not used much otherwise)
 		if (aiChat.grounding) {
-			systemInstructionText += '返答のルール2:Google search with grounding.';
+			systemInstructionText += 'Response rules 2:Google search with grounding.';
 		}
-		// URLから情報を取得
+		// Get information from a URL
 		if (aiChat.question !== undefined) {
 			const urlexp = RegExp('(https?://[a-zA-Z0-9!?/+_~=:;.,*&@#$%\'-]+)', 'g');
 			const urlarray = [...aiChat.question.matchAll(urlexp)];
@@ -169,31 +169,31 @@ export default class extends Module {
 					try{
 						result = await urlToJson(url[0]);
 					} catch (err: unknown) {
-						systemInstructionText += '補足として提供されたURLは無効でした:URL=>' + url[0]
+						systemInstructionText += 'The URL provided as a follow-up was invalid: URL=>' + url[0]
 						this.log('Skip url becase error in urlToJson');
 						continue;
 					}
 					const urlpreview: UrlPreview = result as UrlPreview;
 					if (urlpreview.title) {
 						systemInstructionText +=
-							'補足として提供されたURLの情報は次の通り:URL=>' + urlpreview.url
-							+'サイト名('+urlpreview.sitename+')、';
+							'The URL information provided as supplementary information is as follows: URL=>' + urlpreview.url
+							+'Site Name('+urlpreview.sitename+')、';
 						if (!urlpreview.sensitive) {
 							systemInstructionText +=
-							'タイトル('+urlpreview.title+')、'
-							+ '説明('+urlpreview.description+')、'
-							+ '質問にあるURLとサイト名・タイトル・説明を組み合わせ、回答の参考にすること。'
+							'title('+urlpreview.title+')、'
+							+ 'explanation('+urlpreview.description+')、'
+							+ 'Use the URL in the question, along with the site name, title, and description, to help you answer. '
 							;
 							this.log('urlpreview.sitename:' + urlpreview.sitename);
 							this.log('urlpreview.title:' + urlpreview.title);
 							this.log('urlpreview.description:' + urlpreview.description);
 						} else {
 							systemInstructionText +=
-							'これはセンシティブなURLの可能性があるため、質問にあるURLとサイト名のみで、回答の参考にすること(使わなくても良い)。'
+							'This may be a sensitive URL, so please use only the URL and site name in the question as a reference for your answer (you do not have to use it). '
 							;
 						}
 					} else {
-						// 多分ここにはこないが念のため
+						// Probably won't come here but just in case
 						this.log('urlpreview.title is nothing');
 					}
 				}
@@ -202,7 +202,7 @@ export default class extends Module {
 		const systemInstruction: GeminiSystemInstruction = {role: 'system', parts: [{text: systemInstructionText}]};
 
 		parts = [{text: aiChat.question}];
-		// ファイルが存在する場合、ファイルを添付して問い合わせ
+		// If the file exists, attach it and make a query.
 		if (files.length >= 1) {
 			for (const file of files){
 				parts.push(
@@ -216,7 +216,7 @@ export default class extends Module {
 			}
 		}
 
-		// 履歴を追加
+		// Add History
 		let contents: GeminiContents[] = [];
 		if (aiChat.history != null) {
 			aiChat.history.forEach(entry => {
@@ -253,7 +253,7 @@ export default class extends Module {
 			this.log(JSON.stringify(res_data));
 			if (res_data.hasOwnProperty('candidates')) {
 				if (res_data.candidates?.length > 0) {
-					// 結果を取得
+					// Get the results
 					if (res_data.candidates[0].hasOwnProperty('content')) {
 						if (res_data.candidates[0].content.hasOwnProperty('parts')) {
 							if (res_data.candidates[0].content.parts.length > 0) {
@@ -265,12 +265,12 @@ export default class extends Module {
 							}
 						}
 					}
-					// groundingMetadataを取得
+					// groundingMetadataGet
 					let groundingMetadata = '';
 					if (res_data.candidates[0].hasOwnProperty('groundingMetadata')) {
-						// 参考サイト情報
+						// Reference site information
 						if (res_data.candidates[0].groundingMetadata.hasOwnProperty('groundingChunks')) {
-							// 参考サイトが多すぎる場合があるので、3つに制限
+							// There may be too many reference sites, so limit it to three.
 							let checkMaxLength = res_data.candidates[0].groundingMetadata.groundingChunks.length;
 							if (res_data.candidates[0].groundingMetadata.groundingChunks.length > 3) {
 								checkMaxLength = 3;
@@ -279,15 +279,15 @@ export default class extends Module {
 								if (res_data.candidates[0].groundingMetadata.groundingChunks[i].hasOwnProperty('web')) {
 									if (res_data.candidates[0].groundingMetadata.groundingChunks[i].web.hasOwnProperty('uri')
 											&& res_data.candidates[0].groundingMetadata.groundingChunks[i].web.hasOwnProperty('title')) {
-										groundingMetadata += `参考(${i+1}): [${res_data.candidates[0].groundingMetadata.groundingChunks[i].web.title}](${res_data.candidates[0].groundingMetadata.groundingChunks[i].web.uri})\n`;
+										groundingMetadata += `reference(${i+1}): [${res_data.candidates[0].groundingMetadata.groundingChunks[i].web.title}](${res_data.candidates[0].groundingMetadata.groundingChunks[i].web.uri})\n`;
 									}
 								}
 							}
 						}
-						// 検索ワード
+						// Search words
 						if (res_data.candidates[0].groundingMetadata.hasOwnProperty('webSearchQueries')) {
 							if (res_data.candidates[0].groundingMetadata.webSearchQueries.length > 0) {
-								groundingMetadata += '検索ワード: ' + res_data.candidates[0].groundingMetadata.webSearchQueries.join(',') + '\n';
+								groundingMetadata += 'Search words: ' + res_data.candidates[0].groundingMetadata.webSearchQueries.join(',') + '\n';
 							}
 						}
 					}
@@ -354,7 +354,7 @@ export default class extends Module {
 				if (noteData.files[i].hasOwnProperty('type')) {
 					fileType = noteData.files[i].type;
 					if (noteData.files[i].hasOwnProperty('name')) {
-						// 拡張子で挙動を変えようと思ったが、text/plainしかMisskeyで変になってGemini対応してるものがない？
+						// I thought about changing the behavior with the extension, but only text/plain works weirdly with Misskey and there are no extensions that are compatible with Gemini?
 						// let extention = noteData.files[i].name.split('.').pop();
 						if (fileType === 'application/octet-stream' || fileType === 'application/xml') {
 							fileType = 'text/plain';
@@ -391,10 +391,10 @@ export default class extends Module {
 			this.log('AiChat requested');
 		}
 
-		// msg.idをもとにnotes/conversationを呼び出し、会話中のidかチェック
+		// Call notes/conversation based on msg.id and check if it is an ID in a conversation
 		const conversationData = await this.ai.api('notes/conversation', { noteId: msg.id });
 
-		// aichatHistに該当のポストが見つかった場合は会話中のためmentionHoonkでは対応しない
+		// If a corresponding post is found on aichatHist, mentionHoonk will not respond because the conversation is ongoing.
 		let exist : AiChatHist | null = null;
 		if (conversationData != undefined) {
 			for (const message of conversationData) {
@@ -405,7 +405,7 @@ export default class extends Module {
 			}
 		}
 
-		// タイプを決定
+		// Determine the type
 		let type = TYPE_GEMINI;
 		if (msg.includes([KIGO + TYPE_GEMINI])) {
 			type = TYPE_GEMINI;
@@ -418,11 +418,11 @@ export default class extends Module {
 		}
 		const current : AiChatHist = {
 			postId: msg.id,
-			createdAt: Date.now(),// 適当なもの
+			createdAt: Date.now(),// Something appropriate
 			type: type,
 			fromMention: true,
 		};
-		// 引用している場合、情報を取得しhistoryとして与える
+		// If it is cited, get the information and provide it as history
 		if (msg.quoteId) {
 			const quotedNote = await this.ai.api('notes/show', {
 				noteId: msg.quoteId,
@@ -431,12 +431,12 @@ export default class extends Module {
 				{
 					role: 'user',
 					content:
-						'ユーザーが与えた前情報である、引用された文章: ' +
+						'User-supplied background information, quoted text: ' +
 						quotedNote.text,
 				},
 			];
 		}
-		// AIに問い合わせ
+		// Contact AI
 		const result = await this.handleAiChat(current, msg);
 
 		if (result) {
@@ -452,22 +452,22 @@ export default class extends Module {
 		this.log('contextHook...');
 		if (msg.text == null) return false;
 
-		// msg.idをもとにnotes/conversationを呼び出し、該当のidかチェック
+		// Call notes/conversation based on msg.id and check if it is the corresponding ID
 		const conversationData = await this.ai.api('notes/conversation', { noteId: msg.id });
 
-		// 結果がnullやサイズ0の場合は終了
+		// If the result is null or size 0, exit
 		if (conversationData == null || conversationData.length == 0 ) {
 			this.log('conversationData is nothing.');
 			return false;
 		}
 
-		// aichatHistに該当のポストが見つからない場合は終了
+		// If no relevant post is found on aichatHist, the process ends.
 		let exist : AiChatHist | null = null;
 		for (const message of conversationData) {
 			exist = this.aichatHist.findOne({
 				postId: message.id
 			});
-			// 見つかった場合はそれを利用
+			// If found, use it
 			if (exist != null) break;
 		}
 		if (exist == null) {
@@ -475,7 +475,7 @@ export default class extends Module {
 			return false;
 		}
 
-		// 見つかった場合はunsubscribe&removeし、回答。今回のでsubscribe,insert,timeout設定
+		// If found, unsubscribe & remove and reply. This time, subscribe, insert, timeout settings
 		this.log('unsubscribeReply & remove.');
 		this.log(exist.type + ':' + exist.postId);
 		if (exist.history) {
@@ -486,7 +486,7 @@ export default class extends Module {
 		this.unsubscribeReply(key);
 		this.aichatHist.remove(exist);
 
-		// AIに問い合わせ
+		// Contact AI
 		const result = await this.handleAiChat(exist, msg);
 
 		if (result) {
@@ -513,22 +513,22 @@ export default class extends Module {
 			!note.user.isBot
 		);
 
-		// 対象が存在しない場合は処理終了
+		// If the target does not exist, the process ends.
 		if (interestedNotes == undefined || interestedNotes.length == 0) return false;
 
-		// ランダムに選択
+		// Random selection
 		const choseNote = interestedNotes[Math.floor(Math.random() * interestedNotes.length)];
 
-		// aichatHistに該当のポストが見つかった場合は会話中のためaichatRandomTalkでは対応しない
+		// If a corresponding post is found on aichatHist, it will not be handled by aichatRandomTalk because the conversation is ongoing.
 		let exist : AiChatHist | null = null;
 
-		// 選択されたノート自体が会話中のidかチェック
+		// Check if the selected note itself is the ID in the conversation
 		exist = this.aichatHist.findOne({
 			postId: choseNote.id
 		});
 		if (exist != null) return false;
 
-		// msg.idをもとにnotes/childrenを呼び出し、会話中のidかチェック
+		// Call notes/children based on msg.id and check if it is an ID in the conversation
 		const childrenData = await this.ai.api('notes/children', { noteId: choseNote.id });
 		if (childrenData != undefined) {
 			for (const message of childrenData) {
@@ -539,7 +539,7 @@ export default class extends Module {
 			}
 		}
 
-		// msg.idをもとにnotes/conversationを呼び出し、会話中のidかチェック
+		// Call notes/conversation based on msg.id and check if it is an ID in a conversation
 		const conversationData = await this.ai.api('notes/conversation', { noteId: choseNote.id });
 		if (conversationData != undefined) {
 			for (const message of conversationData) {
@@ -550,7 +550,7 @@ export default class extends Module {
 			}
 		}
 
-		// 確率をクリアし、親愛度が指定以上、かつ、Botでない場合のみ実行
+		// Clear the probability, execute only if the affection level is above the specified level and the character is not a bot
 		if (Math.random() < this.randomTalkProbability) {
 			this.log('AiChat(randomtalk) targeted: ' + choseNote.id);
 		} else {
@@ -568,11 +568,11 @@ export default class extends Module {
 
 		const current : AiChatHist = {
 			postId: choseNote.id,
-			createdAt: Date.now(),// 適当なもの
-			type: TYPE_GEMINI,		// 別のAPIをデフォルトにしてもよい
-			fromMention: false,		// ランダムトークの場合はfalseとする
+			createdAt: Date.now(),// Something appropriate
+			type: TYPE_GEMINI,		// You may choose to default to a different API.
+			fromMention: false,		// Set to false for random talk
 		};
-		// AIに問い合わせ
+		// Contact AI
 		let targetedMessage = choseNote;
 		if (choseNote.extractedText == undefined) {
 			const data = await this.ai.api('notes/show', { noteId: choseNote.id });
@@ -600,7 +600,7 @@ export default class extends Module {
 		const extractedText = msg.extractedText;
 		if (extractedText == undefined || extractedText.length == 0) return false;
 
-		// Gemini API用にAPIのURLと置き換え用タイプを変更
+		// Changed API URL and replacement type for Gemini API
 		if (msg.includes([KIGO + GEMINI_FLASH])) {
 			exist.api = GEMINI_20_FLASH_API;
 			reKigoType = RegExp(KIGO + GEMINI_FLASH, 'i');
@@ -609,11 +609,11 @@ export default class extends Module {
 			reKigoType = RegExp(KIGO + GEMINI_PRO, 'i');
 		}
 
-		// groudingサポート
+		// Grounding support
 		if (msg.includes([GROUNDING_TARGET])) {
 			exist.grounding = true;
 		}
-		// 設定で、デフォルトgroundingがONの場合、メンションから来たときは強制的にgroundingをONとする(ランダムトークの場合は勝手にGoogle検索するのちょっと気が引けるため...)
+		// In the settings, if default grounding is ON, force grounding to ON when coming from a mention (because in random talk, it feels a bit awkward to do a Google search without permission...)
 		if (exist.fromMention && config.aichatGroundingWithGoogleSearchAlwaysEnabled) {
 			exist.grounding = true;
 		}
@@ -635,7 +635,7 @@ export default class extends Module {
 							.trim();
 		switch (exist.type) {
 			case TYPE_GEMINI:
-				// geminiの場合、APIキーが必須
+				// For gemini, an API key is required
 				if (!config.geminiProApiKey) {
 					msg.reply(serifs.aichat.nothing(exist.type));
 					return false;
@@ -660,7 +660,7 @@ export default class extends Module {
 				break;
 
 			case TYPE_PLAMO:
-				// PLaMoの場合、APIキーが必須
+				// For PLaMo, an API key is required
 				if (!config.pLaMoApiKey) {
 					msg.reply(serifs.aichat.nothing(exist.type));
 					return false;
@@ -690,13 +690,13 @@ export default class extends Module {
 
 		this.log('Replying...');
 		msg.reply(serifs.aichat.post(text, exist.type)).then(reply => {
-			// 履歴に登録
+			// Register in history
 			if (!exist.history) {
 				exist.history = [];
 			}
 			exist.history.push({ role: 'user', content: question });
 			exist.history.push({ role: 'model', content: text });
-			// 履歴が10件を超えた場合、古いものを削除
+			// If the history exceeds 10 items, the oldest one will be deleted.
 			if (exist.history.length > 10) {
 				exist.history.shift();
 			}
@@ -712,10 +712,10 @@ export default class extends Module {
 
 			this.log('Subscribe&Set Timer...');
 
-			// メンションをsubscribe
+			// Subscribe to mentions
 			this.subscribeReply(reply.id, reply.id);
 
-			// タイマーセット
+			// Timer Set
 			this.setTimeoutWithPersistence(TIMEOUT_TIME, {
 				id: reply.id
 			});
