@@ -108,7 +108,7 @@ export default class extends Module {
 
 	@bindThis
 	private erait(msg: Message): boolean {
-		const match = msg.extractedText.match(/(.+?)So, I praise you.);
+		const match = msg.extractedText.match(/(.+?)So, I praise you./);
 		if (match) {
 			msg.reply(getSerif(serifs.core.erait.specify(match[1], msg.friend.name)));
 			return true;
