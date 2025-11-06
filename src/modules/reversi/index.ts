@@ -16,7 +16,7 @@ export default class extends Module {
 	public readonly name = 'reversi';
 
 	/**
-	 * リバーシストリーム
+	 * Reversi Stream
 	 */
 	private reversiConnection?: any;
 
@@ -26,10 +26,10 @@ export default class extends Module {
 
 		this.reversiConnection = this.ai.connection.useSharedConnection('reversi');
 
-		// 招待されたとき
+		// When invited
 		this.reversiConnection.on('invited', msg => this.onReversiInviteMe(msg.user));
 
-		// マッチしたとき
+		// When a match occurs
 		this.reversiConnection.on('matched', msg => this.onReversiGameStart(msg.game));
 
 		if (config.reversiEnabled) {
@@ -50,11 +50,11 @@ export default class extends Module {
 
 	@bindThis
 	private async mentionHook(msg: Message) {
-		if (msg.includes(['リバーシ', 'オセロ', 'reversi', 'othello'])) {
+		if (msg.includes(['Reversi', 'Othello', 'reversi', 'othello'])) {
 			if (config.reversiEnabled) {
 				msg.reply(serifs.reversi.ok);
 
-				if (msg.includes(['接待'])) {
+				if (msg.includes(['reception'])) {
 					msg.friend.updateReversiStrength(0);
 				}
 
@@ -76,14 +76,14 @@ export default class extends Module {
 		this.log(`Someone invited me: @${inviter.username}`);
 
 		if (config.reversiEnabled) {
-			// 承認
+			// admit
 			const game = await this.ai.api('reversi/match', {
 				userId: inviter.id
 			});
 
 			this.onReversiGameStart(game);
 		} else {
-			// todo (リバーシできない旨をメッセージで伝えるなど)
+			// todo (For example, send a message saying that you can't reversi)
 		}
 	}
 
@@ -98,44 +98,44 @@ export default class extends Module {
 
 		this.log(`enter reversi game room: ${game.id}`);
 
-		// ゲームストリームに接続
+		// Connect to a game stream
 		const gw = this.ai.connection.connectToChannel('reversiGame', {
 			gameId: game.id
 		});
 
-		// フォーム
+		// Form
 		const form = [{
 			id: 'publish',
 			type: 'switch',
-			label: '藍が対局情報を投稿するのを許可',
+			label: 'Allow Ai to post game information',
 			value: true,
 		}, {
 			id: 'strength',
 			type: 'radio',
-			label: '強さ',
+			label: 'Strength',
 			value: strength,
 			items: [{
-				label: '接待',
+				label: 'reception',
 				value: 0
 			}, {
-				label: '弱',
+				label: 'weak',
 				value: 2
 			}, {
-				label: '中',
+				label: 'middle',
 				value: 3
 			}, {
-				label: '強',
+				label: 'powerful',
 				value: 4
 			}, {
-				label: '最強',
+				label: 'strongest',
 				value: 5
 			}]
 		}];
 
-		//#region バックエンドプロセス開始
+		//#region backend process start
 		const ai = childProcess.fork(_dirname + '/back.js');
 
-		// バックエンドプロセスに情報を渡す
+		// Passing information to a backend process
 		ai.send({
 			type: '_init_',
 			body: {
@@ -158,7 +158,7 @@ export default class extends Module {
 			}
 		});
 
-		// ゲームストリームから情報が流れてきたらそのままバックエンドプロセスに伝える
+		// When information comes in from the game stream, it is passed directly to the backend process.
 		gw.addListener('*', message => {
 			ai.send(message);
 
@@ -174,7 +174,7 @@ export default class extends Module {
 		});
 		//#endregion
 
-		// どんな設定内容の対局でも受け入れる
+		// Accepts any game settings
 		setTimeout(() => {
 			gw.send('ready', true);
 		}, 1000);
@@ -184,7 +184,7 @@ export default class extends Module {
 	private onGameEnded(game: any) {
 		const user = game.user1Id == this.ai.account.id ? game.user2 : game.user1;
 
-		//#region 1日に1回だけ親愛度を上げる
+		//#region Increase your affection level once a day
 		const today = getDate();
 
 		const friend = new Friend(this.ai, { user: user });
