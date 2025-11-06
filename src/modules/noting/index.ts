@@ -43,7 +43,7 @@ export default class extends Module {
 
 		// Add red text functionality based on config.json
 		if (config.colorNotes) {
-			noteText = '$[fg.red ' + noteText + ']';
+			noteText = '**$[fg.color=FF4040 ' + noteText + ']**';
 		}
 
 		// TODO: 季節に応じたセリフ
