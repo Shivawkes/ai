@@ -39,6 +39,7 @@ Next, create `config.json` in that directory (you can also create it by copying 
 }
 ```
 To launch it, run `npm install`, `npm run build`, and `npm start`.
+NOTE: 'npm run build' may show many errors.  This is mostly related to strict type checking.  It is safe to continue to 'npm start'.  The bot will function normally.
 
 ## Running with Docker
 First, run `git clone` to a suitable directory.
