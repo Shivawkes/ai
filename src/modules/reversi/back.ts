@@ -1,9 +1,8 @@
 /**
- * -AI-
- * Botのバックエンド(思考を担当)
- *
- * 対話と思考を同じプロセスで行うと、思考時間が長引いたときにストリームから
- * 切断されてしまうので、別々のプロセスで行うようにします
+* -AI-
+* Bot backend (responsible for thinking)
+*
+* If conversation and thinking are performed in the same process, the bot will be disconnected from the stream if the thinking time is prolonged, so they should be performed in separate processes.
  */
 
 import got from 'got';
@@ -17,10 +16,10 @@ function getUserName(user) {
 }
 
 const titles = [
-	'さん', 'サン', 'ｻﾝ', '㌠',
-	'ちゃん', 'チャン', 'ﾁｬﾝ',
-	'君', 'くん', 'クン', 'ｸﾝ',
-	'先生', 'せんせい', 'センセイ', 'ｾﾝｾｲ'
+	'san', 'san', 'san', '㌠',
+	'chan', 'chan', 'chan',
+	'kun', 'kun', 'kun',
+	'teacher', 'sensei', 'sensei', 'sensei'
 ];
 
 class Session {
@@ -64,7 +63,7 @@ class Session {
 	private get userName(): string {
 		let name = getUserName(this.user);
 		if (name.includes('$') || name.includes('<') || name.includes('*')) name = this.user.username;
-		return `?[${name}](${config.host}/@${this.user.username})${titles.some(x => name.endsWith(x)) ? '' : 'さん'}`;
+		return `?[${name}](${config.host}/@${this.user.username})${titles.some(x => name.endsWith(x)) ? '' : 'Mr. Miss.'}`;
 	}
 
 	private get strength(): number {
