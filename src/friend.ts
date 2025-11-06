@@ -112,13 +112,13 @@ export default class Friend {
 			this.doc.todayLoveIncrements = 0;
 		}
 
-		// 1日に上げられる親愛度は最大3
+		// The maximum affection level that can be increased per day is 3
 		if (this.doc.lastLoveIncrementedAt == today && (this.doc.todayLoveIncrements || 0) >= 3) return;
 
 		if (this.doc.love == null) this.doc.love = 0;
 		this.doc.love += amount;
 
-		// 最大 100
+		// Maximum 100
 		if (this.doc.love > 100) this.doc.love = 100;
 
 		this.doc.lastLoveIncrementedAt = today;
@@ -130,16 +130,16 @@ export default class Friend {
 
 	@bindThis
 	public decLove(amount = 1) {
-		// 親愛度MAXなら下げない
+		// If the affection level is MAX, it will not be lowered
 		if (this.doc.love === 100) return;
 
 		if (this.doc.love == null) this.doc.love = 0;
 		this.doc.love -= amount;
 
-		// 最低 -30
+		// Minimum -30
 		if (this.doc.love < -30) this.doc.love = -30;
 
-		// 親愛度マイナスなら名前を忘れる
+		// If the affection level is negative, the name will be forgotten.
 		if (this.doc.love < 0) {
 			this.doc.name = null;
 		}
@@ -198,7 +198,7 @@ export default class Friend {
 		this.doc.perModulesData = src.perModulesData;
 		this.save();
 
-		// TODO: 合言葉を忘れる
+		// TODO: Forget the password
 
 		return true;
 	}
