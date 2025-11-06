@@ -38,7 +38,7 @@ Next, create `config.json` in that directory (you can also create it by copying 
 "memoryDir": "Memory.json save location (optional, default is '.' (the repository root))"
 }
 ```
-To launch it, run `npm install`, `npm run build`, and `npm start`.
+To launch it, run `npm install`, `npm run build`, and `npm start`.</br>
 NOTE: 'npm run build' may show many errors.  This is mostly related to strict type checking.  It is safe to continue to 'npm start'.  The bot will function normally.
 
 ## Running with Docker
