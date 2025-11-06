@@ -57,7 +57,7 @@ process.on('uncaughtException', err => {
 promiseRetry(retry => {
 	log(`Account fetching... ${chalk.gray(config.host)}`);
 
-	// アカウントをフェッチ
+	// Fetch Accounts
 	return got.post(`${config.apiUrl}/i`, {
 		json: {
 			i: config.i
@@ -71,7 +71,7 @@ promiseRetry(retry => {
 
 	log('Starting AiOS...');
 
-	// 藍起動
+	// Blue Start
 	new 藍(account, [
 		new CoreModule(),
 		new AiChatModule(),
