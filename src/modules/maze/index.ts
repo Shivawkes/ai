@@ -8,10 +8,11 @@ import Message from '@/message.js';
 export default class extends Module {
 	public readonly name = 'maze';
 
+	// Commented out setInterval to stop automatic Maze posting
 	@bindThis
 	public install() {
 		this.post();
-		setInterval(this.post, 1000 * 60 * 3);
+		//setInterval(this.post, 1000 * 60 * 3);
 
 		return {
 			mentionHook: this.mentionHook
@@ -57,12 +58,12 @@ export default class extends Module {
 
 	@bindThis
 	private async mentionHook(msg: Message) {
-		if (msg.includes(['get lost'])) {
+		if (msg.includes(['get lost', 'maze'])) {
 			let size: string | null = null;
 			if (msg.includes(['reception'])) size = 'veryEasy';
-			if (msg.includes(['Easy', 'Simple', 'Easy', 'Small', 'Small'])) size = 'easy';
-			if (msg.includes(['difficult', 'difficult', 'complex', 'big', 'large'])) size = 'hard';
-			if (msg.includes(['Death', 'Demon', 'Hell'])) size = 'veryHard';
+			if (msg.includes(['Easy', 'Simple', 'Small'])) size = 'easy';
+			if (msg.includes(['difficult', 'complex', 'big', 'large'])) size = 'hard';
+			if (msg.includes(['Death', 'Hell'])) size = 'veryHard';
 			if (msg.includes(['藍']) && msg.includes(['Seriously'])) size = 'ai';
 			this.log('Maze requested');
 			setTimeout(async () => {
