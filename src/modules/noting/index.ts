@@ -7,6 +7,7 @@ import config from '@/config.js';
 export default class extends Module {
 	public readonly name = 'noting';
 
+	// Changed to 6000 here to slow random noting
 	@bindThis
 	public install() {
 		if (config.notingEnabled === false) return {};
@@ -15,7 +16,7 @@ export default class extends Module {
 			if (Math.random() < 0.04) {
 				this.post();
 			}
-		}, 1000 * 60 * 10);
+		}, 6000 * 60 * 10);
 
 		return {};
 	}
